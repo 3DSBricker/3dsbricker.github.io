@@ -1,48 +1,145 @@
-<html><head><script>
-d=document,r=parent,w=window,n=navigator.userAgent;
-if(r==w){
-	l='Cakes.dat',g=w.location.search.slice(1).split('&');
-	if(g[0].length>0&&g[0].length<89)l=decodeURIComponent(g[0]);
-	d.title='Load '+l;
-	w.onload=function(){
-		if(n.indexOf('1.7538.CN')>=0)n=n.replace('.CN',confirm('系统版本4.2-4.4选择OK，系统版本4.5选择取消。')?'.CN.42':'.CN.45');
-		d.body.childNodes[0].innerHTML=l+' loading<iframe height=0 src=#/>';
+<html><head>
+<title>3DS Online Tools</title>
+<meta name=viewport content='width=400'>
+<script type=text/javascript src=./autostyle.js></script>
+<script language=javascript>
+var is3DS = navigator.platform.indexOf("Nintendo 3DS") >= 0;
+var x=new XMLHttpRequest();
+x.open('GET','rop.json',false);
+x.send();
+var launchers = JSON.parse(x.responseText);
+var selected = null
+var toggled = null;
+function setscroll(size){
+	x = document.activeElement.offsetLeft - bottompane.scrollLeft;
+	var e = event.keyCode;
+	var dx = 0;
+	if ( e == 39 && x >= 320-size ){
+		bottompane.scrollLeft += size;
 	}
-}else{
-	w.onload=function(){
-		b=0,f=w.frameElement,p=f.parentNode,o=d.createElement('object');
-		o.addEventListener('beforeload',function(){
-			if(++b==1)p.addEventListener('DOMSubtreeModified',r.z);
-			else if(b==2)p.removeChild(f);
-		});
-		d.body.appendChild(o);
+	if ( e == 37 && x <= size ){
+		bottompane.scrollLeft -= size;
+	}
+	if ( e == 13 ){
+	        toggled = document.activeElement;
 	}
 }
-function z(){
-	if(n.indexOf('Nintendo 3DS')>=0){
-		m=[],q={'17412':'',
-			'17455':'',
-			'17498':'樴-\udb6c해*弧*⯨3樴-\udb6c해*찀ॸ瑐!畠ࢴ\0@#낤%해*찄ॸ靘&\0\0鮔@#樴-\udb6c해*찀ॸ瑐!찠ॸ\0ᡁ䀀\0죤/樴-\udb6c해*搼;瑐!老￿\0ᡁ䀀\0䰬4해*啀?靘&璬ࢴ,\0\0ᡁ　᤭䀀\0￿￿해*\0樴-\udb6c해*쨀㮚靘&\0\0儼* @#@#@#璌ࢴ@#@#@#@#@#@#@#@#@#@#@#@#琀ࢴ\0\0\udb6c@#@#@#@#@#@#@#@#@#\udb6c\udb6cdmc:/\0@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#樜-',
-			'17538C42':'ﺘ垴싸傟뙀ﺘ垴싸찀ॸ㷈Š࣌\0@#"싸찄ॸ欬"\0\0暄@#ﺘ垴싸찀ॸ㷈찠ॸ\0ᡁ䀀\0璼ﺘ垴싸霄=㷈老￿\0ᡁ䀀\0봜싸沘=欬"¬࣌멄\0\0ᡁ瀀ᤵ䀀\0￿￿￿￿\0ﺘ垴싸쨀㮚欬"\0\0䈘 @#@#@#࣌@#@#@#@#@#@#@#@#@#@#@#@#\0࣌\0\0垴@#@#@#@#@#@#@#@#@#垴垴dmc:/\0@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#ﺀ',
-			'17538C45':'ﺨ埤쌤像넸ﺨ埤쌤찀ॸ㷀Š࣌\0@#"쌤찄ॸ櫸"\0\0暴@#ﺨ埤쌤찀ॸ㷀찠ॸ\0ᡁ䀀\0濈ﺨ埤쌤霄=㷀老￿\0ᡁ䀀\0봰쌤沘=櫸"¬࣌멘\0\0ᡁ瀀ᤵ䀀\0￿￿￿￿\0ﺨ埤쌤쨀㮚櫸"\0\0䈌 @#@#@#࣌@#@#@#@#@#@#@#@#@#@#@#@#\0࣌\0\0埤@#@#@#@#@#@#@#@#@#埤埤dmc:/\0@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#ﺐ',
-			'17538K':'﹬垴싸傟쉘﹬垴싸찀ॸ㷈Š࣍\0@#"싸찄ॸ稨"\0\0暄@#﹬垴싸찀ॸ㷈찠ॸ\0ᡁ䀀\0胸﹬垴싸꜄=㷈老￿\0ᡁ䀀\0볰싸粘=稨"¬࣍먘\0\0ᡁ倀ᤥ䀀\0￿￿￿￿\0﹬垴싸쨀㮚稨"\0\0䈘 @#@#@#࣍@#@#@#@#@#@#@#@#@#@#@#@#\0࣍\0\0垴@#@#@#@#@#@#@#@#@#垴垴dmc:/\0@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#﹔',
-			'17538T':'ﺘ垴싸傟쉠ﺘ垴싸찀ॸ㷈Š࣍\0@#"싸찄ॸ穤"\0\0暄@#ﺘ垴싸찀ॸ㷈찠ॸ\0ᡁ䀀\0胼ﺘ垴싸꜄=㷈老￿\0ᡁ䀀\0봜싸粘=穤"¬࣍멄\0\0ᡁ倀ᤵ䀀\0￿￿￿￿\0ﺘ垴싸쨀㮚穤"\0\0䈘 @#@#@#࣍@#@#@#@#@#@#@#@#@#@#@#@#\0࣍\0\0垴@#@#@#@#@#@#@#@#@#垴垴dmc:/\0@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#ﺀ',
-			'17552':'Τ埠쌠僋쨨Τ埠쌠찀ॸ㷀啠ࢸ\0@#﹄"쌠찄ॸ謐"\0\0暰@#Τ埠쌠찀ॸ㷀찠ॸ\0ᡁ䀀\0蛀Τ埠쌠Ꜭ=㷀老￿\0ᡁ䀀\0숨쌠粘=謐"咬ࢸ뽐\0\0ᡁ ᥙ䀀\0￿￿￿￿\0Τ埠쌠쨀㮚謐"\0\0䈌 @#@#@#和ࢸ@#@#@#@#@#@#@#@#@#@#@#@#吀ࢸ\0\0埠@#@#@#@#@#@#@#@#@#埠埠dmc:/\0@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#Ό',
-			'17552C':'ﻀ埠쌠僋럐ﻀ埠쌠찀ॸ㷀Š࣌\0@#"쌠찄ॸ犠"\0\0暰@#ﻀ埠쌠찀ॸ㷀찠ॸ\0ᡁ䀀\0甜ﻀ埠쌠꜌=㷀老￿\0ᡁ䀀\0뵈쌠粘=犠"¬࣌며\0\0ᡁ ᥙ䀀\0￿￿￿￿\0ﻀ埠쌠쨀㮚犠"\0\0䈌 @#@#@#࣌@#@#@#@#@#@#@#@#@#@#@#@#\0࣌\0\0埠@#@#@#@#@#@#@#@#@#埠埠dmc:/\0@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#ﺨ',
-			'17552K':'ﺔ埠쌠僋쩸ﺔ埠쌠찀ॸ㷀Š࣍\0@#靖"쌠찄ॸ艴"\0\0暰@#ﺔ埠쌠찀ॸ㷀찠ॸ\0ᡁ䀀\0蛼ﺔ埠쌠꜌=㷀老￿\0ᡁ䀀\0봜쌠粘=艴"¬࣍멄\0\0ᡁ ᥙ䀀\0￿￿￿￿\0ﺔ埠쌠쨀㮚艴"\0\0䈌 @#@#@#࣍@#@#@#@#@#@#@#@#@#@#@#@#\0࣍\0\0埠@#@#@#@#@#@#@#@#@#埠埠dmc:/\0@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#ﹼ',
-			'17552T':'ﻀ埠쌠僋쫀ﻀ埠쌠찀ॸ㷀Š࣍\0@#ﭜ"쌠찄ॸ苰"\0\0暰@#ﻀ埠쌠찀ॸ㷀찠ॸ\0ᡁ䀀\0蝄ﻀ埠쌠꜌=㷀老￿\0ᡁ䀀\0뵈쌠粘=苰"¬࣍며\0\0ᡁ ᥙ䀀\0￿￿￿￿\0ﻀ埠쌠쨀㮚苰"\0\0䈌 @#@#@#࣍@#@#@#@#@#@#@#@#@#@#@#@#\0࣍\0\0埠@#@#@#@#@#@#@#@#@#埠埠dmc:/\0@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#ﺨ',
-			'17567':'͜埄싼傳쨰͜埄싼찀ॸ㶬蕠ࢸ\0@#︈"싼찄ॸ諴"\0\0暔@#͜埄싼찀ॸ㶬찠ॸ\0ᡁ䀀\0蛜͜埄싼Ꜭ=㶬老￿\0ᡁ䀀\0쇠싼粘=諴"蒬ࢸ뼈\0\0ᡁ ᥙ䀀\0￿￿￿￿\0͜埄싼쨀㮚諴"\0\0䇸 @#@#@#蒌ࢸ@#@#@#@#@#@#@#@#@#@#@#@#萀ࢸ\0\0埄@#@#@#@#@#@#@#@#@#埄埄dmc:/\0@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#̈́',
-			'17567C':'ﹸ埄싼傳럠ﹸ埄싼찀ॸ㶬Š࣌\0@#"싼찄ॸ犌"\0\0暔@#ﹸ埄싼찀ॸ㶬찠ॸ\0ᡁ䀀\0畀ﹸ埄싼꜌=㶬老￿\0ᡁ䀀\0봀싼粘=犌"¬࣌먨\0\0ᡁ ᥙ䀀\0￿￿￿￿\0ﹸ埄싼쨀㮚犌"\0\0䇸 @#@#@#࣌@#@#@#@#@#@#@#@#@#@#@#@#\0࣌\0\0埄@#@#@#@#@#@#@#@#@#埄埄dmc:/\0@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#﹠',
-			'17567K':'﹌埄싼傳쪀﹌埄싼찀ॸ㶬Š࣍\0@#戴"싼찄ॸ艜"\0\0暔@#﹌埄싼찀ॸ㶬찠ॸ\0ᡁ䀀\0蜘﹌埄싼꜌=㶬老￿\0ᡁ䀀\0볔싼粘=艜"¬࣍맼\0\0ᡁ ᥙ䀀\0￿￿￿￿\0﹌埄싼쨀㮚艜"\0\0䇸 @#@#@#࣍@#@#@#@#@#@#@#@#@#@#@#@#\0࣍\0\0埄@#@#@#@#@#@#@#@#@#埄埄dmc:/\0@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#︴',
-			'17567T':'ﹸ埄싼傳쫈ﹸ埄싼찀ॸ㶬Š࣍\0@#ﬠ"싼찄ॸ苘"\0\0暔@#ﹸ埄싼찀ॸ㶬찠ॸ\0ᡁ䀀\0蝠ﹸ埄싼꜌=㶬老￿\0ᡁ䀀\0봀싼粘=苘"¬࣍먨\0\0ᡁ ᥙ䀀\0￿￿￿￿\0ﹸ埄싼쨀㮚苘"\0\0䇸 @#@#@#࣍@#@#@#@#@#@#@#@#@#@#@#@#\0࣍\0\0埄@#@#@#@#@#@#@#@#@#埄埄dmc:/\0@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#﹠'
-		}[n.split('/').pop().replace(/[^\dCKT]/g,'')],
-		s=q.indexOf("dmc:/")+5;
-		q=q.substring(0,s)+l+"\0"+q.slice(s+l.length+1);
-		q+=Array(384-q.length+1+1).join('\0');
-		for(j=1;j<410;j++){
-			i=j/96,a=Array(j);
-			for(k=0;k<i;a[k++]=q);
-			m.push(d.createTextNode(String.fromCharCode.apply(null,Array(a))));
-		}
+function readparams(obj){
+	if(obj)
+		with (launchers[obj.id])
+			if (hasOwnProperty('params'))
+				for (param in params)
+					params[param].value = document.getElementById('param'+param).value;
+}
+function geturl(obj) {
+	if(is3DS){
+		a = navigator.userAgent.split('.');
+		v = a.pop().substring(0,1).replace(/[UEJ]/,'');
+		v = '1' + a.pop() + v;
+	}else{
+		v='17567';
 	}
-}</script></head><body><h1>.</h1></body></html>
+	readparams(obj);
+	with (launchers[obj.id]){
+		v = rop.replace("%spiderver%", v);
+		if (hasOwnProperty('params'))
+			for (param in params)
+				with (params[param])
+					if (value.length > 0){
+						v += '&';
+						if(hasOwnProperty('valueprefix')){
+							v += valueprefix;
+						}
+						c=value;
+						if(obj.id=="arcode"){
+							c=c.toUpperCase().replace(/[^\dA-F]/g,'');
+							n=((c.length+15)>>4).toString(16).toUpperCase();
+							c=Array(9-n.length).join('0')+n+c;
+						}
+						if(hasOwnProperty('little-endian')){
+							a=c.toUpperCase().replace(/[^\dA-F]/g,'').match(/.{8}/g);
+							c='';
+							while(a.length>0){
+								b=a.shift().match(/..?/g);
+								while(b.length>0)
+									c+=b.pop();
+							}
+						a=c.match(/..?/g);
+						for(c in a)a[c]=parseInt(a[c],16);
+						c=btoa(String.fromCharCode.apply(null,a));
+						}
+						v+=c;
+					}
+	}
+	return '/3ds/rop?' + v;
+}
+function toggle(obj) {
+	if (toggled == obj) {
+		if (is3DS) {
+			window.location.replace(geturl(obj));
+		} else {
+			window.location.assign('https://chart.googleapis.com/chart?cht=qr&chs=220x220&chl=' + window.location.protocol + '//' + window.location.hostname + encodeURIComponent(geturl(obj)));
+		}
+	} else {
+		toggled = obj;
+	}
+}
+function titleset(obj) {
+	readparams(selected);
+	paramspane.innerHTML='';
+	selected = obj;
+	with (launchers[selected.id])
+		if (hasOwnProperty('params'))
+			for (param in params)
+				with (params[param])
+					paramspane.innerHTML += "<div><label style='width: 160px;'>"+title+"</label>&nbsp;<input id=param"+param+" type=text " + (hasOwnProperty('value')?"value='"+value+"'":"") + " style='width: 140px;' " + (hasOwnProperty('fixed')?"disabled":"") + "/></div>";
+	with (document.getElementById("title")) {
+		innerHTML = obj.title.split(/\n/).join("<br>");
+		style.display = '';
+	}
+}
+function titleunset(obj) {
+	document.getElementById("title").style.display = 'none';
+}
+</script>
+</head><body onkeydown=setscroll(48+8+8);><center>
+<div id=bg>
+<div id=top>
+<div id=status></div>
+<div id=topscreen>3DS Gateway launcher<div id=result></div><div id=title align=center style='display:none; position: absolute; width: 60% ; bottom: 16px; left: 50%; margin-left: -33%;'></div></div>
+</div>
+<div id=bottom>
+<div id=bottomscreen>
+<div id=bottompane style='text-align: left; height: 104px; overflow-x: sroll; overflow-y: hidden; padding-bottom: 16px;'>
+	<div id=icons style='align: left;'>
+	<script>
+		iconsize = 48;
+		marginh = 8;
+		marginv = 32;
+		icons.style.width=Object.keys(launchers).length*(iconsize + marginh * 2);
+		for (id in launchers){
+			with (launchers[id]){
+				document.write("<button id=" + id + " title='" + title + "' class=image onclick=toggle(this); onfocus=titleset(this); onblur=titleunset(this); onmouseover=titleset(this); onmouseout=titleunset(this); style='width: "+iconsize+"; height: "+iconsize+"; margin: "+marginv+" "+marginh+"; padding: 5; border: 10; background-image: url(" + icon + "); background-size: cover;' />");
+			}
+		}
+	</script>
+	</div>
+</div>
+<div style='text-align: left; height: 46px; overflow-x: hidden; overflow-y: scroll;'>
+<div id=paramspane style='text-align: right;'></div>
+</div>
+</div>
+<div id=navi><img border=none src=/3ds/3ds_navi.png width=320 height=28 usemap=#navigation>
+<map name=navigation>
+<area shape=rect coords=0,1,42,28 onclick=history.back(); />
+<area shape=rect coords=43,1,85,28 onclick=history.forward(); />
+<area shape=rect coords=86,1,127,28 onclick=location.reload(); />
+<area shape=rect coords=128,1,170,28 />
+<area shape=rect coords=171,1,213,28 />
+<area shape=rect coords=214,1,320,28 />
+</map>
+</div>
+</div>
+</div>
+</center></body></html>
+
